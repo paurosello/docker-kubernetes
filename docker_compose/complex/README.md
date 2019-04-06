@@ -1,0 +1,1 @@
+https://github.com/docker/labs/blob/master/beginner/chapters/votingapp.md
