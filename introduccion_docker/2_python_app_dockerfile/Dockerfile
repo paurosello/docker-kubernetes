@@ -1,11 +1,11 @@
 # Inherit from the Python Docker image
 FROM python:3.7-slim
-# Install the Flask package via pip
-RUN pip install flask==1.0.1
 # Copy the source code to app folder
-COPY ./server.py /app/
+COPY . /app/
 # Change the working directory
 WORKDIR /app/
+# Install the Flask package via pip
+RUN pip install -r requirements.txt
 # Set "python" as the entry point
 ENTRYPOINT ["python"]
 # Expose port

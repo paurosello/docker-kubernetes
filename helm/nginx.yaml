@@ -1,0 +1,25 @@
+controller:
+  replicaCount: 1
+
+  resources: {}
+  #  limits:
+  #    cpu: 100m
+  #    memory: 64Mi
+  #  requests:
+  #    cpu: 100m
+  #    memory: 64Mi
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 11
+    targetCPUUtilizationPercentage: 50
+    targetMemoryUtilizationPercentage: 50
+
+  stats:
+    enabled: false
+
+  ## If controller.stats.enabled = true and controller.metrics.enabled = true, Prometheus metrics will be exported
+  ##
+  metrics:
+    enabled: false
