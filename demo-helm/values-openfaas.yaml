@@ -1,0 +1,25 @@
+functionNamespace: openfaas-fn
+
+operator:
+  image: openfaas/openfaas-operator:0.9.7
+  create: true
+  createCRD: true
+  resources:
+    requests:
+      memory: "120Mi"
+      cpu: "50m"
+
+ingress:
+  enabled: true
+  hosts:
+    - host: faas.138.68.123.11.nip.io
+      serviceName: gateway
+      servicePort: 8080
+      path: /
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    certmanager.k8s.io/cluster-issuer: letsencrypt
+  tls:
+    - secretName: faas.tls
+      hosts:
+        - faas.138.68.123.11.nip.io

@@ -1,0 +1,24 @@
+---
+# Source: openfaas/templates/gateway-external-svc.yaml
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: openfaas
+    chart: openfaas-4.4.0
+    component: gateway
+    heritage: Tiller
+    release: boream
+  name: gateway-external
+  namespace: "default"
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+      nodePort: 31112
+  selector:
+    app: gateway

@@ -1,0 +1,38 @@
+---
+# Source: kube-ops-view/templates/deployment.yaml
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: boream-kube-ops-view
+  labels:
+    chart: "kube-ops-view-0.7.0"
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: boream-kube-ops-view
+    spec:
+      serviceAccountName: "default"
+      containers:
+      - name: kube-ops-view
+        image: "hjacobs/kube-ops-view:0.9"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+        resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 80m
+              memory: 64Mi
+            

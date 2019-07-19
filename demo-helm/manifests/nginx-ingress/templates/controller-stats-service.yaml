@@ -1,0 +1,24 @@
+---
+# Source: nginx-ingress/templates/controller-stats-service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nginx-ingress
+    chart: nginx-ingress-1.4.0
+    component: "controller"
+    heritage: Tiller
+    release: boream
+  name: boream-nginx-ingress-controller-stats
+spec:
+  clusterIP: ""
+  ports:
+    - name: stats
+      port: 18080
+      targetPort: stats
+  selector:
+    app: nginx-ingress
+    component: "controller"
+    release: boream
+  type: "ClusterIP"

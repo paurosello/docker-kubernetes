@@ -1,0 +1,24 @@
+---
+# Source: nginx-ingress/templates/controller-metrics-service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nginx-ingress
+    chart: nginx-ingress-1.4.0
+    component: "controller"
+    heritage: Tiller
+    release: boream
+  name: boream-nginx-ingress-controller-metrics
+spec:
+  clusterIP: ""
+  ports:
+    - name: metrics
+      port: 9913
+      targetPort: metrics
+  selector:
+    app: nginx-ingress
+    component: "controller"
+    release: boream
+  type: "ClusterIP"

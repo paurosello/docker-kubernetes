@@ -1,0 +1,19 @@
+---
+# Source: kube-ops-view/templates/clusterrolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    app: kube-ops-view
+    chart: kube-ops-view-0.7.0
+    heritage: Tiller
+    release: boream
+  name: boream-kube-ops-view
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: boream-kube-ops-view
+subjects:
+  - kind: ServiceAccount
+    name: boream-kube-ops-view
+    namespace: default

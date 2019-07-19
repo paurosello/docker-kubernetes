@@ -1,0 +1,20 @@
+---
+# Source: nginx-ingress/templates/controller-poddisruptionbudget.yaml
+
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  labels:
+    app: nginx-ingress
+    chart: nginx-ingress-1.4.0
+    component: "controller"
+    heritage: Tiller
+    release: boream
+  name: boream-nginx-ingress-controller
+spec:
+  selector:
+    matchLabels:
+      app: nginx-ingress
+      release: boream
+      component: "controller"
+  minAvailable: 1

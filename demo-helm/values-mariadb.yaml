@@ -1,0 +1,19 @@
+rootUser:
+  password: boream
+
+db:
+  user: boream
+  password: boream
+  name: my_database
+
+replication:
+  enabled: true
+  user: replicator
+  password: replicator
+
+slave:
+  replicas: 4
+
+service:
+  type: NodePort
+  port: 3306

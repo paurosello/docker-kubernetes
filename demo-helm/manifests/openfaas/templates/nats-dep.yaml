@@ -1,0 +1,41 @@
+---
+# Source: openfaas/templates/nats-dep.yaml
+
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: openfaas
+    chart: openfaas-4.4.0
+    component: nats
+    heritage: Tiller
+    release: boream
+  name: nats
+  namespace: "default"
+spec:
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "false"
+        prometheus.io.scrape: "false"
+      labels:
+        app: nats
+    spec:
+      containers:
+      - name:  nats
+        resources:
+            requests:
+              memory: 120Mi
+            
+        image: nats-streaming:0.11.2
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 4222
+          protocol: TCP
+        command: ["/nats-streaming-server"]
+        args:
+          - --store
+          - memory
+          - --cluster_id
+          - faas-cluster

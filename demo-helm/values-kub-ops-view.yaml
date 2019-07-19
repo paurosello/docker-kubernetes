@@ -1,0 +1,10 @@
+ingress:
+  enabled: true
+  hostname: ops.138.68.123.11.nip.io
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    certmanager.k8s.io/cluster-issuer: letsencrypt
+  tls:
+    - secretName: kube-ops-view.tls
+      hosts:
+        - ops.138.68.123.11.nip.io

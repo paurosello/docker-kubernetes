@@ -6,9 +6,9 @@ COPY . /app/
 WORKDIR /app/
 # Install the Flask package via pip
 RUN pip install -r requirements.txt
-# Set "python" as the entry point
-ENTRYPOINT ["python"]
 # Expose port
 EXPOSE 5000
+# user
+USER 10001
 # Set the command as the script name
-CMD ["server.py"]
+CMD ["python", "server.py"]

@@ -1,0 +1,6 @@
+controller:
+  replicaCount: 5
+  stats:
+    enabled: true
+  metrics:
+    enabled: true

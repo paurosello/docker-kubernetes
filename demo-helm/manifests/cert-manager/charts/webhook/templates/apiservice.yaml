@@ -1,0 +1,21 @@
+---
+# Source: cert-manager/charts/webhook/templates/apiservice.yaml
+apiVersion: apiregistration.k8s.io/v1beta1
+kind: APIService
+metadata:
+  name: v1beta1.admission.certmanager.k8s.io
+  labels:
+    app: webhook
+    chart: webhook-v0.8.1
+    release: boream
+    heritage: Tiller
+  annotations:
+    certmanager.k8s.io/inject-ca-from: "default/boream-webhook-webhook-tls"
+spec:
+  group: admission.certmanager.k8s.io
+  groupPriorityMinimum: 1000
+  versionPriority: 15
+  service:
+    name: boream-webhook
+    namespace: "default"
+  version: v1beta1

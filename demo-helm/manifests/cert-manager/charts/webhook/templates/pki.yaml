@@ -1,0 +1,78 @@
+---
+# Source: cert-manager/charts/webhook/templates/pki.yaml
+---
+# Create a selfsigned Issuer, in order to create a root CA certificate for
+# signing webhook serving certificates
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Issuer
+metadata:
+  name: boream-webhook-selfsign
+  namespace: "default"
+  labels:
+    app: webhook
+    chart: webhook-v0.8.1
+    release: boream
+    heritage: Tiller
+spec:
+  selfSigned: {}
+
+---
+
+# Generate a CA Certificate used to sign certificates for the webhook
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: boream-webhook-ca
+  namespace: "default"
+  labels:
+    app: webhook
+    chart: webhook-v0.8.1
+    release: boream
+    heritage: Tiller
+spec:
+  secretName: boream-webhook-ca
+  duration: 43800h # 5y
+  issuerRef:
+    name: boream-webhook-selfsign
+  commonName: "ca.webhook.cert-manager"
+  isCA: true
+
+---
+
+# Create an Issuer that uses the above generated CA certificate to issue certs
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Issuer
+metadata:
+  name: boream-webhook-ca
+  namespace: "default"
+  labels:
+    app: webhook
+    chart: webhook-v0.8.1
+    release: boream
+    heritage: Tiller
+spec:
+  ca:
+    secretName: boream-webhook-ca
+
+---
+
+# Finally, generate a serving certificate for the webhook to use
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: boream-webhook-webhook-tls
+  namespace: "default"
+  labels:
+    app: webhook
+    chart: webhook-v0.8.1
+    release: boream
+    heritage: Tiller
+spec:
+  secretName: boream-webhook-webhook-tls
+  duration: 8760h # 1y
+  issuerRef:
+    name: boream-webhook-ca
+  dnsNames:
+  - boream-webhook
+  - boream-webhook.default
+  - boream-webhook.default.svc

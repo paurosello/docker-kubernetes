@@ -1,0 +1,28 @@
+---
+# Source: nginx-ingress/templates/controller-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nginx-ingress
+    chart: nginx-ingress-1.4.0
+    component: "controller"
+    heritage: Tiller
+    release: boream
+  name: boream-nginx-ingress-controller
+spec:
+  clusterIP: ""
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: https
+  selector:
+    app: nginx-ingress
+    component: "controller"
+    release: boream
+  type: "LoadBalancer"

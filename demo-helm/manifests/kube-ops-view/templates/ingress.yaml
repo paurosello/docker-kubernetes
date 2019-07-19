@@ -1,0 +1,29 @@
+---
+# Source: kube-ops-view/templates/ingress.yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: boream-kube-ops-view
+  labels:
+    app: boream-kube-ops-view
+    chart: "kube-ops-view-0.7.0"
+    release: "boream"
+    heritage: "Tiller"
+  annotations:
+    certmanager.k8s.io/cluster-issuer: letsencrypt
+    kubernetes.io/ingress.class: nginx
+    
+spec:
+  rules:
+    - host: ops.138.68.123.11.nip.io
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: boream-kube-ops-view
+              servicePort: 80
+  tls:
+    - hosts:
+      - ops.138.68.123.11.nip.io
+      secretName: kube-ops-view.tls
+    

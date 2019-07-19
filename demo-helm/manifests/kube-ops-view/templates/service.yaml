@@ -1,0 +1,16 @@
+---
+# Source: kube-ops-view/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: boream-kube-ops-view
+  labels:
+    chart: "kube-ops-view-0.7.0"
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  selector:
+    app: boream-kube-ops-view

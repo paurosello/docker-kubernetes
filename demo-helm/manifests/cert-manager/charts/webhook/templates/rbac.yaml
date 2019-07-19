@@ -1,0 +1,70 @@
+---
+# Source: cert-manager/charts/webhook/templates/rbac.yaml
+### Webhook ###
+---
+# apiserver gets the auth-delegator role to delegate auth decisions to
+# the core apiserver
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: boream-webhook:auth-delegator
+  labels:
+    app: webhook
+    chart: webhook-v0.8.1
+    release: boream
+    heritage: Tiller
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:auth-delegator
+subjects:
+- apiGroup: ""
+  kind: ServiceAccount
+  name: boream-webhook
+  namespace: default
+
+---
+
+# apiserver gets the ability to read authentication. This allows it to
+# read the specific configmap that has the requestheader-* entries to
+# api agg
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  name: boream-webhook:webhook-authentication-reader
+  namespace: kube-system
+  labels:
+    app: webhook
+    chart: webhook-v0.8.1
+    release: boream
+    heritage: Tiller
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: extension-apiserver-authentication-reader
+subjects:
+- apiGroup: ""
+  kind: ServiceAccount
+  name: boream-webhook
+  namespace: default
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: boream-webhook:webhook-requester
+  labels:
+    app: webhook
+    chart: webhook-v0.8.1
+    release: boream
+    heritage: Tiller
+rules:
+- apiGroups:
+  - admission.certmanager.k8s.io
+  resources:
+  - certificates
+  - issuers
+  - clusterissuers
+  verbs:
+  - create
