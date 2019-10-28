@@ -1,0 +1,15 @@
+kind: Pod 
+apiVersion: v1 
+metadata:
+  name: pod-using-configmap 
+spec:
+  volumes:
+    - name: example-configmap-volume
+      configMap:
+        name: example-configmap
+  containers:
+    - name: container-configmap
+      image: nginx:1.7.9
+      volumeMounts:
+        - name: example-configmap-volume
+            mountPath: /etc/config
